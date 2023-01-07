@@ -23,3 +23,25 @@ module.exports = {
     REACT_APP_MAINNET_STORAGE_BEACON,
     REACT_APP_MAINNET_OZERC1967PROXY
 };
+
+//****AUTO-REDEEM ****
+// signer address:  0x49B7e3BC581DEF1E16645706dcE4AbFce5e61C88
+// FakeOZL deployed to:  0x712050bF160d201B1F9ACDd88b286587B6d4F48E
+// Emitter deployed to:  0xC764bB8A9e82BAbC31E3C539cb19CE5Ef2228aFB
+// ozPayMe deployed to:  0x17a5FC84Fde08B3cCc5a6fc3Aa08897b77887be6
+// StorageBeacon deployed to:  0x59D93c146C0dAA2DA4fa34d9654F8615DDBDE651
+// ozUpgradeableBeacon deployed to:  0x40165730B6eA64B1A4d7826725b62331AeEc899e
+// beacon stored in StorageBeacon...
+// beacon stored in Emitter...
+// ProxyFactory deployed to:  0xa2950EfEdCc1E7c82a7c6c215F10643E2624B966
+// ozERC1967Proxy deployed to:  0x26431875BE922A1E2092EEE3139d6A7ddd0b8E79
+// initialize with hash:  0x6d5b727c1b6f7c952ac3b56ae6bc96325312ee6d13d737e8f15872ea8ba90381
+// RedeemedHashes deployed to:  0xB7278b8AEB64f179c055842F9769f8C6Bb699f90
+// RolesAuthority deployed to:  0xbF02a219E5777c326fAf4094622ed83bC3E96DEe
+// set auth done...
+// set user role done...
+// set role 1 done...
+// set role 2 done...
+// createNewProxy with hash:  0x1c5a6aa87c63f7e11caefc482817ddc0f343dc850dca9019d6a53fc966e99935
+// proxy 1:  0x3464626eC714443B71079A63117C078132957BDb
+// task id:  0xeae98fb44c112e8664df0c521df07d73eeeb14b27aaf990df49f14b53b219eed
