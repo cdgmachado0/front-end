@@ -12,6 +12,7 @@ import { v4 as uuidv4 } from "uuid";
 import PopUp from "../popUp/popUp.component";
 import { ADDRESS_TO_TOKEN } from "../../utils/constants";
 import Clipboard from "../clipboard/clipboard.component";
+import Web3 from 'web3';
 
 function ChangeTab() {
   const [{ address }] = useStateValue();
@@ -39,6 +40,9 @@ function ChangeTab() {
   const [showPopUp, setshowPopUp] = useState(false);
 
   const [sendingTx, setsendingTx] = useState(false);
+
+
+  const web3 = new Web3();
 
   useEffect(() => {
     if (!address) return;
@@ -120,7 +124,10 @@ function ChangeTab() {
           selectedToken,
           address
         );
-        newtoken = tx.events.NewToken.returnValues.newToken;
+
+        newtoken = tx.events[0].raw.topics[1];
+        newtoken = web3.utils.toChecksumAddress("0x" + newtoken.slice(2).replace(/^0+/, ''));
+        
         setnewToken(newtoken);
         setmessage(
           ADDRESS_TO_TOKEN[newtoken]
