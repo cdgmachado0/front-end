@@ -127,7 +127,7 @@ function Main() {
             type="text"
             value={ozelBalanceWeth ? ozelBalanceWeth : ""}
           />
-          <label className="defaultBtn">In ETH</label>
+          <label className="defaultBtn">in ETH</label>
         </div>
       </div>
       <ControlModule />

@@ -175,11 +175,13 @@ export async function getAccountPayments(address) {
 
     if (!address) return
 
-    const web3_eth = new Web3(Web3.givenProvider);
-    const contractAddress = window.ethereum.chainId === MAINNET_CHAIND_ID ? STORAGE_BEACON_MAIN : STORAGE_BEACON
-    const StorageBeacon = new web3_eth.eth.Contract(StorageBeacon_ABI, contractAddress);
-    const res = await StorageBeacon.methods.getAccountPayments(address).call()
-    return fromAtomicUnit(res);
+    if (window.ethereum.chainId === MAINNET_CHAIND_ID) {
+        const res = await OZL_Main.methods.getAccountPayments(address).call();
+        return fromAtomicUnit(res)
+    } else {
+        const res = await OZL.methods.getAccountPayments(address).call();
+        return fromAtomicUnit(res)
+    }
 }
 
 export async function getAccountDetails(token) {

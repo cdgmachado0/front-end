@@ -2,97 +2,130 @@
   {
     "inputs": [
       {
+        "internalType": "bytes4",
+        "name": "_functionSelector",
+        "type": "bytes4"
+      }
+    ],
+    "name": "facetAddress",
+    "outputs": [
+      {
         "internalType": "address",
-        "name": "receiver_",
+        "name": "facetAddress_",
         "type": "address"
-      },
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "facetAddresses",
+    "outputs": [
+      {
+        "internalType": "address[]",
+        "name": "facetAddresses_",
+        "type": "address[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_facet",
+        "type": "address"
+      }
+    ],
+    "name": "facetFunctionSelectors",
+    "outputs": [
+      {
+        "internalType": "bytes4[]",
+        "name": "facetFunctionSelectors_",
+        "type": "bytes4[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "facets",
+    "outputs": [
       {
         "components": [
           {
-            "internalType": "uint256",
-            "name": "totalVolumeInUSD",
-            "type": "uint256"
+            "internalType": "address",
+            "name": "facetAddress",
+            "type": "address"
           },
           {
-            "internalType": "uint256",
-            "name": "totalVolumeInETH",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "wethUM",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "valueUM",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "ozlBalance",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "wethUserShare",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "usdUserShare",
-            "type": "uint256"
+            "internalType": "bytes4[]",
+            "name": "functionSelectors",
+            "type": "bytes4[]"
           }
         ],
-        "internalType": "struct FakeOZL.FakeOZLVars",
-        "name": "vars_",
-        "type": "tuple"
+        "internalType": "struct IDiamondLoupe.Facet[]",
+        "name": "facets_",
+        "type": "tuple[]"
       }
     ],
-    "stateMutability": "nonpayable",
-    "type": "constructor"
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    "anonymous": false,
-    "inputs": [
+    "inputs": [],
+    "name": "getAUM",
+    "outputs": [
       {
-        "indexed": false,
-        "internalType": "address",
-        "name": "user",
-        "type": "address"
-      }
-    ],
-    "name": "DeadVariable",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "previousOwner",
-        "type": "address"
+        "internalType": "uint256",
+        "name": "wethUM",
+        "type": "uint256"
       },
       {
-        "indexed": true,
-        "internalType": "address",
-        "name": "newOwner",
-        "type": "address"
+        "internalType": "uint256",
+        "name": "valueUM",
+        "type": "uint256"
       }
     ],
-    "name": "OwnershipTransferred",
-    "type": "event"
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "int256",
+        "name": "price_",
+        "type": "int256"
+      }
+    ],
+    "name": "getAUM",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "yBalance",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "valueUM",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
   },
   {
     "inputs": [
       {
         "internalType": "address",
-        "name": "user_",
+        "name": "account_",
         "type": "address"
       }
     ],
-    "name": "balanceOf",
+    "name": "getAccountPayments",
     "outputs": [
       {
         "internalType": "uint256",
@@ -104,116 +137,26 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "totalVolumeInUSD",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "totalVolumeInETH",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "wethUM",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "valueUM",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "ozlBalance",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "wethUserShare",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "usdUserShare",
-            "type": "uint256"
-          }
-        ],
-        "internalType": "struct FakeOZL.FakeOZLVars",
-        "name": "newVars_",
-        "type": "tuple"
-      }
-    ],
-    "name": "changeFakeOZLVars",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "newReceiver_",
-        "type": "address"
-      }
-    ],
-    "name": "changeReceiver",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "components": [
-          {
-            "internalType": "address",
-            "name": "user",
-            "type": "address"
-          },
-          {
-            "internalType": "address",
-            "name": "token",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "slippage",
-            "type": "uint256"
-          },
-          {
-            "internalType": "string",
-            "name": "name",
-            "type": "string"
-          }
-        ],
-        "internalType": "struct IStorageBeacon.AccountConfig",
-        "name": "acc_",
-        "type": "tuple"
-      }
-    ],
-    "name": "exchangeToAccountToken",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
     "inputs": [],
-    "name": "getAUM",
+    "name": "getDefaultSlippage",
     "outputs": [
       {
         "internalType": "uint256",
         "name": "",
         "type": "uint256"
-      },
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getL1CheckStatus",
+    "outputs": [
       {
-        "internalType": "uint256",
+        "internalType": "bool",
         "name": "",
-        "type": "uint256"
+        "type": "bool"
       }
     ],
     "stateMutability": "view",
@@ -234,6 +177,45 @@
         "name": "",
         "type": "uint256"
       },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getOzelIndex",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getProtocolFee",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getRegulatorCounter",
+    "outputs": [
       {
         "internalType": "uint256",
         "name": "",
@@ -270,8 +252,14 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "owner",
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "account_",
+        "type": "address"
+      }
+    ],
+    "name": "getUserByL1Account",
     "outputs": [
       {
         "internalType": "address",
@@ -280,43 +268,63 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "receiver",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "renounceOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [
       {
         "internalType": "address",
-        "name": "newOwner",
+        "name": "token_",
         "type": "address"
       }
     ],
-    "name": "transferOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "name": "queryTokenDatabase",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
-    "stateMutability": "payable",
-    "type": "receive"
+    "inputs": [
+      {
+        "internalType": "bytes4",
+        "name": "_interfaceId",
+        "type": "bytes4"
+      }
+    ],
+    "name": "supportsInterface",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "user_",
+        "type": "address"
+      }
+    ],
+    "name": "balanceOf",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
   }
 ]
