@@ -4,7 +4,7 @@ import {
   changeAccountToken,
   changeAccountTokenNSlippage,
   getAccountsByUser,
-  getTokenDatabase,
+  getTokenDatabase
 } from "../../services/web3Service";
 import { useStateValue } from "../../stateManagement/stateProvider.state";
 
@@ -136,7 +136,9 @@ function ChangeTab() {
         );
       } else if (newSlippageCheck) {
         const tx = await changeAccountSlippage(selectedAddress, slippage, address);
-        newslippage = +tx.events.NewSlippage.returnValues.newSlippage / 100;
+
+        newslippage = web3.utils.hexToNumber(tx.events[0].raw.topics[1]) / 100;
+
         setnewSlippage(newslippage);
         setmessage("New slippage successfully changed to " + newslippage + "%");
       } else {
