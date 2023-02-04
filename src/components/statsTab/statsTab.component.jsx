@@ -7,7 +7,7 @@ import {
 import { useStateValue } from "../../stateManagement/stateProvider.state";
 
 import { v4 as uuidv4 } from "uuid";
-import { ADDRESS_TO_TOKEN } from "../../utils/constants";
+import { setToken } from "../../utils/constants";
 import Clipboard from "../clipboard/clipboard.component";
 
 function StatsTab() {
@@ -21,6 +21,7 @@ function StatsTab() {
   const [selectedAddressName, setselectedAddressName] = useState("");
   const [token, setuserToken] = useState("");
   const [totalPayment, settotalPayment] = useState("");
+
 
   useEffect(() => {
     if (!address) return;
@@ -119,11 +120,7 @@ function StatsTab() {
           readOnly
           type="text"
           placeholder="User token will appear here"
-          value={
-            ADDRESS_TO_TOKEN[token]
-              ? ADDRESS_TO_TOKEN[token]
-              : token
-          }
+          defaultValue={setToken(token)}
         />
       </div>
       <div className="field">

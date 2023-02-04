@@ -19,4 +19,12 @@ export const ADDRESS_TO_TOKEN_MAINNET = {
 export const MAINNET_CHAIND_ID = "0x1";
 export const GOERLI_CHAIN_ID = "0x5";
 
-export const ACCOUNT_NAME_REGEX = /^[a-zA-Z0-9]*$/
+export const ACCOUNT_NAME_REGEX = /^[a-zA-Z0-9]*$/;
+
+export function setToken(token) {
+    if (window.ethereum.chainId == MAINNET_CHAIND_ID ) {
+        return ADDRESS_TO_TOKEN_MAINNET[token];
+    } else if (window.ethereum.chainId == GOERLI_CHAIN_ID) {
+        return ADDRESS_TO_TOKEN[token];
+    }
+}

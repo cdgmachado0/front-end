@@ -8,12 +8,7 @@ import { useStateValue } from "../../stateManagement/stateProvider.state";
 
 import { v4 as uuidv4 } from "uuid";
 import PopUp from "../popUp/popUp.component";
-import { 
-  ADDRESS_TO_TOKEN, 
-  ADDRESS_TO_TOKEN_MAINNET,
-  MAINNET_CHAIND_ID,
-  GOERLI_CHAIN_ID 
-} from "../../utils/constants";
+import { setToken } from "../../utils/constants";
 import { isValidAccountName } from "../../utils/commonFunctions";
 
 
@@ -135,14 +130,7 @@ function CreateTab() {
     if (e.target.value.length > 18)
       setinvalidName(true);
   }
-
-  function setToken(token) {
-    if (window.ethereum.chainId == MAINNET_CHAIND_ID ) {
-      return ADDRESS_TO_TOKEN_MAINNET[token];
-    } else if (window.ethereum.chainId == GOERLI_CHAIN_ID) {
-      return ADDRESS_TO_TOKEN[token];
-    }
-  }
+  
 
   return (
     <>
