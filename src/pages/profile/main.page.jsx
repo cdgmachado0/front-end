@@ -53,11 +53,21 @@ function Main() {
       return
     };
 
-    const ozelBalance = await balanceOf(address);
+    let ozelBalance = await balanceOf(address);
+    if (ozelBalance.includes(".")) {
+      ozelBalance = ozelBalance.split(".")[0] + "."+ ozelBalance.split(".")[1].slice(0, 3);
+    }
     setozelBalance(ozelBalance);
 
-    const [ozelBalanceWeth, ozelBalanceUsd] = await getOzelBalances(address);
+    let [ozelBalanceWeth, ozelBalanceUsd] = await getOzelBalances(address);
+    if (ozelBalanceWeth.includes(".")) {
+      ozelBalanceWeth = ozelBalanceWeth.split(".")[0] + "."+ ozelBalanceWeth.split(".")[1].slice(0, 3);
+    }
     setozelBalanceWeth(ozelBalanceWeth);
+
+    if (ozelBalanceUsd.includes(".")) {
+      ozelBalanceUsd = ozelBalanceUsd.split(".")[0] + "."+ ozelBalanceUsd.split(".")[1].slice(0, 2);
+    }
     setozelBalanceUsd(ozelBalanceUsd);
   }
 
