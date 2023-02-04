@@ -103,8 +103,9 @@ function ChangeTab() {
           address
         );
 
-        newtoken = tx.events.NewToken.returnValues.newToken;
-        newslippage = +tx.events.NewSlippage.returnValues.newSlippage / 100;
+        newtoken = tx.events[0].raw.topics[1];
+        newtoken = web3.utils.toChecksumAddress("0x" + newtoken.slice(2).replace(/^0+/, ''));
+        newslippage = web3.utils.hexToNumber(tx.events[1].raw.topics[1]) / 100;
 
         setnewToken(newtoken);
         setnewSlippage(newslippage);
