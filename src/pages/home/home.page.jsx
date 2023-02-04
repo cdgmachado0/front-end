@@ -24,15 +24,17 @@ function Home() {
     let ethVol = await getTotalVolumeInETH();
     let aum = await getAUMValue();
 
-    if (aum.includes(".")) {
-      aum = aum.split(".")[0] + "."+ aum.split(".")[1].slice(0, 2);
-    }
-    if (ethVol.includes(".")) {
-      ethVol = ethVol.split(".")[0] + "."+ ethVol.split(".")[1].slice(0, 2);
-    }
-    if (usdVol.includes(".")) {
-      usdVol = usdVol.split(".")[0] + "."+ usdVol.split(".")[1].slice(0, 2);
-    }
+    try {
+      if (aum.includes(".")) {
+        aum = aum.split(".")[0] + "."+ aum.split(".")[1].slice(0, 2);
+      }
+      if (ethVol.includes(".")) {
+        ethVol = ethVol.split(".")[0] + "."+ ethVol.split(".")[1].slice(0, 2);
+      }
+      if (usdVol.includes(".")) {
+        usdVol = usdVol.split(".")[0] + "."+ usdVol.split(".")[1].slice(0, 2);
+      }
+    } catch {}
 
     setaumVol(aum);
     setusdVol(ethVol);
@@ -52,11 +54,11 @@ function Home() {
       <div className="home_vol">
         <div className="vol">
           <h1>AUM (USD)</h1>
-          <h2>{aumVol ? aumVol : "Loading..."}</h2>
+          <h2>{aumVol ? aumVol : "Download Metamask..."}</h2>
         </div>
         <div className="vol">
           <h1>TOTAL VOLUME (ETH) - ($)</h1>
-          <h2>{usdVol && ethVol ? `${usdVol} - ${ethVol}` : "Loading..."}</h2>
+          <h2>{usdVol && ethVol ? `${usdVol} - ${ethVol}` : "Download Metamask..."}</h2>
         </div>
       </div>
     </div>

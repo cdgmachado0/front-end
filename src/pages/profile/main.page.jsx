@@ -28,20 +28,22 @@ function Main() {
 
   useEffect(() => {
     setTimeout(()=>{
-         if (
-           window.ethereum.chainId != MAINNET_CHAIND_ID &&
-           window.ethereum.chainId != GOERLI_CHAIN_ID
-         ) {
-           setshowPopUp(true);
-         }
+        try {
+          if (
+            window.ethereum.chainId != MAINNET_CHAIND_ID &&
+            window.ethereum.chainId != GOERLI_CHAIN_ID
+          ) {
+            setshowPopUp(true);
+          }
 
-         window.ethereum.on("chainChanged", (chain) => {
-           if (chain != MAINNET_CHAIND_ID && chain != GOERLI_CHAIN_ID) {
-             setshowPopUp(true);
-           } else {
-             setshowPopUp(false);
-           }
-         });
+          window.ethereum.on("chainChanged", (chain) => {
+            if (chain != MAINNET_CHAIND_ID && chain != GOERLI_CHAIN_ID) {
+              setshowPopUp(true);
+            } else {
+              setshowPopUp(false);
+            }
+          });
+        } catch {}
     },500)
   }, []);
 

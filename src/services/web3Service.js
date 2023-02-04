@@ -42,52 +42,61 @@ export function fromAtomicUnit(wei) {
 }
 
 export async function getBlockNumber() {
-    if (window.ethereum.chainId === MAINNET_CHAIND_ID) {
-        return await web3_arb_main.eth.getBlockNumber();
-    } else {
-        return await web3_arb.eth.getBlockNumber();
-    }
-
+    try {
+        if (window.ethereum.chainId === MAINNET_CHAIND_ID) {
+            return await web3_arb_main.eth.getBlockNumber();
+        } else {
+            return await web3_arb.eth.getBlockNumber();
+        }
+    } catch {}
 }
 
 export async function getTotalVolumeInUSD() {
-    if (window.ethereum.chainId === MAINNET_CHAIND_ID) {
-        const res = await OZL_Main.methods.getTotalVolumeInUSD().call();
-        return fromAtomicUnit(res)
-    } else {
-        const res = await OZL.methods.getTotalVolumeInUSD().call();
-        return fromAtomicUnit(res)
-    }
+    try {
+        if (window.ethereum.chainId === MAINNET_CHAIND_ID) {
+            const res = await OZL_Main.methods.getTotalVolumeInUSD().call();
+            return fromAtomicUnit(res)
+        } else {
+            const res = await OZL.methods.getTotalVolumeInUSD().call();
+            return fromAtomicUnit(res)
+        }
+    } catch {}
 }
 
 export async function getTotalVolumeInETH() {
-    if (window.ethereum.chainId === MAINNET_CHAIND_ID) {
-        const res = await OZL_Main.methods.getTotalVolumeInETH().call();
-        return fromAtomicUnit(res)
-    } else {
-        const res = await OZL.methods.getTotalVolumeInETH().call();
-        return fromAtomicUnit(res)
-    }
+    try {
+        if (window.ethereum.chainId === MAINNET_CHAIND_ID) {
+            const res = await OZL_Main.methods.getTotalVolumeInETH().call();
+            return fromAtomicUnit(res)
+        } else {
+            const res = await OZL.methods.getTotalVolumeInETH().call();
+            return fromAtomicUnit(res)
+        }
+    } catch {}
 }
 
 export async function getAUMWeth() {
-    if (window.ethereum.chainId === MAINNET_CHAIND_ID) {
-        const res = await OZL_Main.methods.getAUM().call();
-        return fromAtomicUnit(res[0])
-    } else {
-        const res = await OZL.methods.getAUM().call();
-        return fromAtomicUnit(res[0])
-    }
+    try {
+        if (window.ethereum.chainId === MAINNET_CHAIND_ID) {
+            const res = await OZL_Main.methods.getAUM().call();
+            return fromAtomicUnit(res[0])
+        } else {
+            const res = await OZL.methods.getAUM().call();
+            return fromAtomicUnit(res[0])
+        }
+    } catch {}
 }
 
 export async function getAUMValue() {
-    if (window.ethereum.chainId === MAINNET_CHAIND_ID) {
-        const res = await OZL_Main.methods.getAUM().call();
-        return fromAtomicUnit(res[1])
-    } else {
-        const res = await OZL.methods.getAUM().call();
-        return fromAtomicUnit(res[1])
-    }
+    try {
+        if (window.ethereum.chainId === MAINNET_CHAIND_ID) {
+            const res = await OZL_Main.methods.getAUM().call();
+            return fromAtomicUnit(res[1])
+        } else {
+            const res = await OZL.methods.getAUM().call();
+            return fromAtomicUnit(res[1])
+        }
+    } catch {}
 }
 
 // functions -- APP -- as in document
@@ -95,54 +104,64 @@ export async function balanceOf(address) {
 
     if(!address) return;
 
-    if (window.ethereum.chainId === MAINNET_CHAIND_ID) {
-        const res = await OZL_Main.methods.balanceOf(address).call();
-        return fromAtomicUnit(res)
-    } else {
-        const res = await OZL.methods.balanceOf(address).call();
-        return fromAtomicUnit(res)
-    }
+    try {
+        if (window.ethereum.chainId === MAINNET_CHAIND_ID) {
+            const res = await OZL_Main.methods.balanceOf(address).call();
+            return fromAtomicUnit(res)
+        } else {
+            const res = await OZL.methods.balanceOf(address).call();
+            return fromAtomicUnit(res)
+        }
+    } catch {}
 }
 
 export async function getOzelBalances(address) {
 
     if(!address) return
 
-    if (window.ethereum.chainId === MAINNET_CHAIND_ID) {
-        const res = await OZL_Main.methods.getOzelBalances(address).call();
-        return [fromAtomicUnit(res[0]), fromAtomicUnit(res[1])]
-    } else {
-        const res = await OZL.methods.getOzelBalances(address).call();
-        return [fromAtomicUnit(res[0]), fromAtomicUnit(res[1])]
-    }
+    try {
+        if (window.ethereum.chainId === MAINNET_CHAIND_ID) {
+            const res = await OZL_Main.methods.getOzelBalances(address).call();
+            return [fromAtomicUnit(res[0]), fromAtomicUnit(res[1])]
+        } else {
+            const res = await OZL.methods.getOzelBalances(address).call();
+            return [fromAtomicUnit(res[0]), fromAtomicUnit(res[1])]
+        }
+    } catch {}
 }
 
 // functions -- WIDGET -- as in document
 export async function getTokenDatabase() {
-    const web3_eth = new Web3(Web3.givenProvider);
-    const contractAddress = window.ethereum.chainId === MAINNET_CHAIND_ID ? STORAGE_BEACON_MAIN : STORAGE_BEACON
-    const StorageBeacon = new web3_eth.eth.Contract(StorageBeacon_ABI, contractAddress);
-    const res = await StorageBeacon.methods.getTokenDatabase().call();
-    return res;
+    try {
+        const web3_eth = new Web3(Web3.givenProvider);
+        const contractAddress = window.ethereum.chainId === MAINNET_CHAIND_ID ? STORAGE_BEACON_MAIN : STORAGE_BEACON
+        const StorageBeacon = new web3_eth.eth.Contract(StorageBeacon_ABI, contractAddress);
+        const res = await StorageBeacon.methods.getTokenDatabase().call();
+        return res;
+    } catch {}
 }
 
 export async function getAccountsByUser(address) {
 
     if (!address) return
 
-    const web3_eth = new Web3(Web3.givenProvider);
-    const contractAddress = window.ethereum.chainId === MAINNET_CHAIND_ID ? STORAGE_BEACON_MAIN : STORAGE_BEACON
-    const StorageBeacon = new web3_eth.eth.Contract(StorageBeacon_ABI, contractAddress);
-    const res = await StorageBeacon.methods.getAccountsByUser(address).call();
-    return res;
+    try {
+        const web3_eth = new Web3(Web3.givenProvider);
+        const contractAddress = window.ethereum.chainId === MAINNET_CHAIND_ID ? STORAGE_BEACON_MAIN : STORAGE_BEACON
+        const StorageBeacon = new web3_eth.eth.Contract(StorageBeacon_ABI, contractAddress);
+        const res = await StorageBeacon.methods.getAccountsByUser(address).call();
+        return res;
+    } catch {}
 }
 
 export async function createNewProxy(address, token, slippage, accountName) {
-    const web3_eth = new Web3(Web3.givenProvider);
-    const contractAddress = window.ethereum.chainId === MAINNET_CHAIND_ID ? OZERC1967PROXY_MAIN : OZERC1967PROXY
-    const OZERC1967Proxy = new web3_eth.eth.Contract(OZERC1967Proxy_ABI, contractAddress);
-    const res = await OZERC1967Proxy.methods.createNewProxy([address, token, parseInt(slippage * 100), accountName]).send({ from: address });
-    return res;
+    try {
+        const web3_eth = new Web3(Web3.givenProvider);
+        const contractAddress = window.ethereum.chainId === MAINNET_CHAIND_ID ? OZERC1967PROXY_MAIN : OZERC1967PROXY
+        const OZERC1967Proxy = new web3_eth.eth.Contract(OZERC1967Proxy_ABI, contractAddress);
+        const res = await OZERC1967Proxy.methods.createNewProxy([address, token, parseInt(slippage * 100), accountName]).send({ from: address });
+        return res;
+    } catch {}
 }
 
 // functions -- CHANGE -- as in document
@@ -175,13 +194,15 @@ export async function getAccountPayments(address) {
 
     if (!address) return
 
-    if (window.ethereum.chainId === MAINNET_CHAIND_ID) {
-        const res = await OZL_Main.methods.getAccountPayments(address).call();
-        return fromAtomicUnit(res)
-    } else {
-        const res = await OZL.methods.getAccountPayments(address).call();
-        return fromAtomicUnit(res)
-    }
+    try {
+        if (window.ethereum.chainId === MAINNET_CHAIND_ID) {
+            const res = await OZL_Main.methods.getAccountPayments(address).call();
+            return fromAtomicUnit(res)
+        } else {
+            const res = await OZL.methods.getAccountPayments(address).call();
+            return fromAtomicUnit(res)
+        }
+    } catch {}
 }
 
 export async function getAccountDetails(token) {
