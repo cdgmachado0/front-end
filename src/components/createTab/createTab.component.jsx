@@ -8,8 +8,14 @@ import { useStateValue } from "../../stateManagement/stateProvider.state";
 
 import { v4 as uuidv4 } from "uuid";
 import PopUp from "../popUp/popUp.component";
-import { ADDRESS_TO_TOKEN } from "../../utils/constants";
+import { 
+  ADDRESS_TO_TOKEN, 
+  ADDRESS_TO_TOKEN_MAINNET,
+  MAINNET_CHAIND_ID,
+  GOERLI_CHAIN_ID 
+} from "../../utils/constants";
 import { isValidAccountName } from "../../utils/commonFunctions";
+
 
 function CreateTab() {
   const [{ address }] = useStateValue();
@@ -130,6 +136,14 @@ function CreateTab() {
       setinvalidName(true);
   }
 
+  function setToken(token) {
+    if (window.ethereum.chainId == MAINNET_CHAIND_ID ) {
+      return ADDRESS_TO_TOKEN_MAINNET[token];
+    } else if (window.ethereum.chainId == GOERLI_CHAIN_ID) {
+      return ADDRESS_TO_TOKEN[token];
+    }
+  }
+
   return (
     <>
       {showPopUp && (
@@ -156,7 +170,7 @@ function CreateTab() {
               </option>
               {tokenAddresses.map((token) => (
                 <option key={uuidv4()} readOnly value={token}>
-                  {ADDRESS_TO_TOKEN[token] ? ADDRESS_TO_TOKEN[token] : token}
+                  {setToken(token)}
                 </option>
               ))}
             </select>
