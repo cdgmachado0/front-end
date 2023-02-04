@@ -56,7 +56,7 @@ function Home() {
         </div>
         <div className="vol">
           <h1>TOTAL VOLUME (ETH) - ($)</h1>
-          <h2>{usdVol && ethVol ? `${usdVol}-${ethVol}` : "Loading..."}</h2>
+          <h2>{usdVol && ethVol ? `${usdVol} - ${ethVol}` : "Loading..."}</h2>
         </div>
       </div>
     </div>

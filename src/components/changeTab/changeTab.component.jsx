@@ -10,7 +10,7 @@ import { useStateValue } from "../../stateManagement/stateProvider.state";
 
 import { v4 as uuidv4 } from "uuid";
 import PopUp from "../popUp/popUp.component";
-import { ADDRESS_TO_TOKEN } from "../../utils/constants";
+import { setToken } from "../../utils/constants";
 import Clipboard from "../clipboard/clipboard.component";
 import Web3 from 'web3';
 
@@ -111,8 +111,8 @@ function ChangeTab() {
         setnewSlippage(newslippage);
 
         setmessage(
-          ADDRESS_TO_TOKEN[newtoken]
-            ? "New token successfully changed to " + ADDRESS_TO_TOKEN[newtoken]
+          setToken(newtoken)
+            ? "New token successfully changed to " + setToken(newtoken)
             : "New token successfully changed to " + newtoken
         );
 
@@ -131,8 +131,8 @@ function ChangeTab() {
         
         setnewToken(newtoken);
         setmessage(
-          ADDRESS_TO_TOKEN[newtoken]
-            ? "New token successfully changed to " + ADDRESS_TO_TOKEN[newtoken]
+          setToken(newtoken)
+            ? "New token successfully changed to " + setToken(newtoken)
             : "New token successfully changed to " + newtoken
         );
       } else if (newSlippageCheck) {
@@ -243,7 +243,7 @@ function ChangeTab() {
               </option>
               {tokenAddresses.map((token) => (
                 <option key={uuidv4()} readOnly value={token}>
-                  {ADDRESS_TO_TOKEN[token] ? ADDRESS_TO_TOKEN[token] : token}
+                  {setToken(token) ? setToken(token) : token}
                 </option>
               ))}
             </select>

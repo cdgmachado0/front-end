@@ -130,7 +130,7 @@ function CreateTab() {
     if (e.target.value.length > 18)
       setinvalidName(true);
   }
-  
+
 
   return (
     <>
@@ -158,7 +158,7 @@ function CreateTab() {
               </option>
               {tokenAddresses.map((token) => (
                 <option key={uuidv4()} readOnly value={token}>
-                  {setToken(token)}
+                  {setToken(token) ? setToken(token) : token}
                 </option>
               ))}
             </select>
