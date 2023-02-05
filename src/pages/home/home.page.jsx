@@ -37,8 +37,20 @@ function Home() {
     } catch {}
 
     setaumVol(aum);
-    setusdVol(ethVol);
+    setusdVol(ethVol); 
     setethVol(usdVol);
+  }
+
+  function checkMetamask(num) {
+    if (window.ethereum) {
+      if (num === 1) {
+        return aumVol ? aumVol : "Loading...";
+      } else if (num === 2) {
+        return usdVol && ethVol ? `${usdVol} - ${ethVol}` : "Loading...";
+      }
+    } else {
+      return 'Download Metamask';
+    }
   }
 
   useEffect(() => {
@@ -54,11 +66,11 @@ function Home() {
       <div className="home_vol">
         <div className="vol">
           <h1>AUM (USD)</h1>
-          <h2>{aumVol ? aumVol : "Download Metamask..."}</h2>
+          <h2>{checkMetamask(1)}</h2>
         </div>
         <div className="vol">
           <h1>TOTAL VOLUME (ETH) - ($)</h1>
-          <h2>{usdVol && ethVol ? `${usdVol} - ${ethVol}` : "Download Metamask..."}</h2>
+          <h2>{checkMetamask(2)}</h2>
         </div>
       </div>
     </div>

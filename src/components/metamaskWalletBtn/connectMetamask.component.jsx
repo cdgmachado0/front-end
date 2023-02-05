@@ -37,7 +37,7 @@ export default function MetamaskWalletBtn({ active }) {
         accountChangeHandler(accounts[0]);
       });
     } else {
-      setmessage('Please install Metamask');
+      setmessage('Please install the Metamask extension');
       setshowPopUp(true);
       setisLoading(false);
     }
@@ -68,7 +68,7 @@ export default function MetamaskWalletBtn({ active }) {
 
   return (
     <>
-      {showPopUp && (
+      {showPopUp && ( 
         <PopUp
           message={message}
           closePopUp={disablePopUp}
