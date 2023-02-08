@@ -83,7 +83,7 @@ function CreateTab() {
         accountName
       );
 
-      const newProxyAddress = tx.events[0].address;
+      const newProxyAddress = tx.events.BeaconUpgraded.address;
 
       setnewProxyAddress(newProxyAddress);
 
