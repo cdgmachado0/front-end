@@ -57,12 +57,16 @@ function Home() {
     setethVol(usdVol);
   }
 
+  function formatNum(num) {
+    return parseFloat(num).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+  }
+
   function checkMetamask(num) {
     if (window.ethereum) {
       if (num === 1) {
-        return aumVol ? aumVol : "Loading...";
+        return aumVol ? formatNum(aumVol) : "Loading...";
       } else if (num === 2) {
-        return usdVol && ethVol ? `${usdVol} - ${ethVol}` : "Loading...";
+        return usdVol && ethVol ? `${usdVol} - ${formatNum(ethVol)}` : "Loading...";
       }
     } else {
       return 'Download Metamask';
