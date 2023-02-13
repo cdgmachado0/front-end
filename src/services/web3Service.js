@@ -52,51 +52,23 @@ export async function getBlockNumber() {
 }
 
 export async function getTotalVolumeInUSD() {
-    try {
-        if (window.ethereum.chainId === MAINNET_CHAIND_ID) {
-            const res = await OZL_Main.methods.getTotalVolumeInUSD().call();
-            return fromAtomicUnit(res)
-        } else {
-            const res = await OZL.methods.getTotalVolumeInUSD().call();
-            return fromAtomicUnit(res)
-        }
-    } catch {}
+    const res = await OZL_Main.methods.getTotalVolumeInUSD().call();
+    return fromAtomicUnit(res);
 }
 
 export async function getTotalVolumeInETH() {
-    try {
-        if (window.ethereum.chainId === MAINNET_CHAIND_ID) {
-            const res = await OZL_Main.methods.getTotalVolumeInETH().call();
-            return fromAtomicUnit(res)
-        } else {
-            const res = await OZL.methods.getTotalVolumeInETH().call();
-            return fromAtomicUnit(res)
-        }
-    } catch {}
+    const res = await OZL_Main.methods.getTotalVolumeInETH().call();
+    return fromAtomicUnit(res);
 }
 
 export async function getAUMWeth() {
-    try {
-        if (window.ethereum.chainId === MAINNET_CHAIND_ID) {
-            const res = await OZL_Main.methods.getAUM().call();
-            return fromAtomicUnit(res[0])
-        } else {
-            const res = await OZL.methods.getAUM().call();
-            return fromAtomicUnit(res[0])
-        }
-    } catch {}
+    const res = await OZL_Main.methods.getAUM().call();
+    return fromAtomicUnit(res[0]);
 }
 
 export async function getAUMValue() {
-    try {
-        if (window.ethereum.chainId === MAINNET_CHAIND_ID) {
-            const res = await OZL_Main.methods.getAUM().call();
-            return fromAtomicUnit(res[1])
-        } else {
-            const res = await OZL.methods.getAUM().call();
-            return fromAtomicUnit(res[1])
-        }
-    } catch {}
+    const res = await OZL_Main.methods.getAUM().call();
+    return fromAtomicUnit(res[1]);
 }
 
 // functions -- APP -- as in document
