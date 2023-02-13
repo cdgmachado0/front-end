@@ -7,6 +7,7 @@ import {
   getTotalVolumeInUSD,
 } from "../../services/web3Service";
 import { useStateValue } from "../../stateManagement/stateProvider.state";
+import { GOERLI_CHAIN_ID, MAINNET_CHAIND_ID } from "../../utils/constants";
 
 import "./home.styles.scss";
 
@@ -14,6 +15,21 @@ function Home() {
   const [] = useLocalStorage("login");
 
   const [{ address }] = useStateValue();
+
+    useEffect(() => {
+      setTimeout(() => {
+        try {
+          window.ethereum.on("chainChanged", (chain) => {
+            if (chain != MAINNET_CHAIND_ID && chain != GOERLI_CHAIN_ID) {
+              return
+            } else {
+              // dispatch chain change
+              callWeb3Service();
+            }
+          });
+        } catch {}
+      }, 500);
+    }, []);
 
   const [aumVol, setaumVol] = useState(0);
   const [usdVol, setusdVol] = useState(0);
@@ -69,7 +85,7 @@ function Home() {
           <h2>{checkMetamask(1)}</h2>
         </div>
         <div className="vol">
-          <h1>TOTAL VOLUME (ETH) - ($)</h1>
+          <h1>TOTAL VOLUME (ETH - USD)</h1>
           <h2>{checkMetamask(2)}</h2>
         </div>
       </div>

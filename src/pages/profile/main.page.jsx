@@ -13,18 +13,23 @@ import PopUp from "../../components/popUp/popUp.component";
 import { GOERLI_CHAIN_ID, MAINNET_CHAIND_ID } from "../../utils/constants";
 
 function Main() {
-  const [{ address }] = useStateValue();
+  const [{ address, chain }, dispatch] = useStateValue();
   const [ozelBalance, setozelBalance] = useState(0);
   const [ozelBalanceUsd, setozelBalanceUsd] = useState(0);
   const [ozelBalanceWeth, setozelBalanceWeth] = useState(0);
 
   const [showPopUp, setshowPopUp] = useState(false);
 
+  const [installMetamaskPopUpMessage] = useState(
+    "Please install the Metamask extension"
+  );
+  const [showInstallMetamaskPopUp, setshowInstallMetamaskPopUp] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
     callWeb3Service();
-  }, [address]);
+  }, [address, chain]);
 
   useEffect(() => {
     setTimeout(()=>{
@@ -40,6 +45,13 @@ function Main() {
             if (chain != MAINNET_CHAIND_ID && chain != GOERLI_CHAIN_ID) {
               setshowPopUp(true);
             } else {
+
+              // dispatch chain change
+               dispatch({
+                 type: "CHAIN",
+                 payload: chain,
+               });
+
               setshowPopUp(false);
             }
           });
@@ -86,6 +98,14 @@ function Main() {
     }
   }
 
+  function enablePopUp() {
+    setshowInstallMetamaskPopUp(true);
+  }
+
+  function disablePopUp() {
+    setshowInstallMetamaskPopUp(false);
+  }
+
   return (
     <div className="mainPage">
       {showPopUp && (
@@ -94,8 +114,15 @@ function Main() {
           showClosePopUp={false}
         />
       )}
+      {/* install metamask popUp */}
+      {showInstallMetamaskPopUp && (
+        <PopUp
+          message={installMetamaskPopUpMessage}
+          closePopUp={disablePopUp}
+        />
+      )}
       <div className="metamask_ham">
-        <MetamaskWalletBtn />
+        <MetamaskWalletBtn enablePopUp={enablePopUp} disablePopUp={disablePopUp} />
         <select
           name="tokens"
           id="tokens"
@@ -121,7 +148,7 @@ function Main() {
             type="text"
             value={ozelBalance ? ozelBalance : ""}
           />
-          <label className="defaultBtn">OZL Balance</label>
+          <label className="defaultBtn">OZL&nbsp;Balance</label>
         </div>
         <div className="field">
           <input

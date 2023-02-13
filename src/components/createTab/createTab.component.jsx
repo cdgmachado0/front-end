@@ -11,9 +11,8 @@ import PopUp from "../popUp/popUp.component";
 import { setToken } from "../../utils/constants";
 import { isValidAccountName } from "../../utils/commonFunctions";
 
-
 function CreateTab() {
-  const [{ address }] = useStateValue();
+  const [{ address, chain }] = useStateValue();
 
   const [tokenAddresses, settokenAddresses] = useState([]);
   const [userAddresses, setuserAddresses] = useState([]);
@@ -36,8 +35,8 @@ function CreateTab() {
 
   useEffect(() => {
     if (!address) return;
-    callWeb3Service();
-  }, [address]);
+    resetModule();
+  }, [address, chain]);
 
   async function callWeb3Service() {
     const tokens = await getTokenDatabase(address);
@@ -57,6 +56,7 @@ function CreateTab() {
   function handleTokenChange(e) {
     setselectedToken(e.target.value);
   }
+
   function handleUserAddressChange(e) {
     const addressIndex = userAddressNames.indexOf(e.target.value);
 
@@ -65,6 +65,9 @@ function CreateTab() {
   }
 
   function disablePopUp() {
+
+    resetModule();
+
     setshowPopUp(false);
   }
 
@@ -87,8 +90,7 @@ function CreateTab() {
 
       setnewProxyAddress(newProxyAddress);
 
-      // for fetching the latest accounts
-      callWeb3Service();
+      // resetModule();
 
       setshowPopUp(true);
     } catch (err) {
@@ -131,6 +133,16 @@ function CreateTab() {
       setinvalidName(true);
   }
 
+  function resetModule() {
+    setslippage("");
+    setaccountName("");
+    setselectedToken("");
+    setselectedAddress("");
+    setselectedAddressName("");
+
+    // for fetching the latest accounts
+    callWeb3Service();
+  }
 
   return (
     <>

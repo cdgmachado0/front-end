@@ -11,7 +11,7 @@ import { setToken } from "../../utils/constants";
 import Clipboard from "../clipboard/clipboard.component";
 
 function StatsTab() {
-  const [{ address }] = useStateValue();
+  const [{ address, chain }] = useStateValue();
 
   const [userAddresses, setuserAddresses] = useState([]);
   const [userAddressNames, setuserAddressNames] = useState([]);
@@ -25,8 +25,8 @@ function StatsTab() {
 
   useEffect(() => {
     if (!address) return;
-    callWeb3Service();
-  }, [address]);
+    resetModule();
+  }, [address, chain]);
 
   useEffect(() => {
     if (!selectedAddress) return;
@@ -68,6 +68,17 @@ function StatsTab() {
 
     setselectedAddress(userAddresses[addressIndex]);
     setselectedAddressName(userAddressNames[addressIndex]);
+  }
+
+  function resetModule(){
+
+      setslippage("");
+      setselectedAddress("");
+      setselectedAddressName("");
+      setuserToken("");
+      settotalPayment("");
+
+      callWeb3Service();
   }
 
   return (

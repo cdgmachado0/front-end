@@ -15,7 +15,7 @@ import Clipboard from "../clipboard/clipboard.component";
 import Web3 from 'web3';
 
 function ChangeTab() {
-  const [{ address }] = useStateValue();
+  const [{ address, chain }] = useStateValue();
 
   const [tokenAddresses, settokenAddresses] = useState([]);
   const [userAddresses, setuserAddresses] = useState([]);
@@ -46,8 +46,8 @@ function ChangeTab() {
 
   useEffect(() => {
     if (!address) return;
-    callWeb3Service();
-  }, [address]);
+    resetModule();
+  }, [address, chain]);
 
   async function callWeb3Service() {
     const tokens = await getTokenDatabase(address);
@@ -70,6 +70,7 @@ function ChangeTab() {
   function handleTokenChange(e) {
     setselectedToken(e.target.value);
   }
+
   function handleUserAddressChange(e) {
     const addressIndex = userAddressNames.indexOf(e.target.value);
 
@@ -78,6 +79,9 @@ function ChangeTab() {
   }
 
   function disablePopUp() {
+
+    resetModule();
+
     setshowPopUp(false);
   }
 
@@ -177,6 +181,18 @@ function ChangeTab() {
 
     // check number of digits after decimals
     if (e.target.value.split(".")[1]?.length > 2) setinvalidSlippage(true);
+  }
+
+  function resetModule(){
+    setslippage("");
+    setselectedToken("");
+    setselectedAddress("");
+    setselectedAddressName("");
+
+    setnewTokenCheck(false);
+    setnewSlippageCheck(false);
+
+    callWeb3Service();
   }
 
   return (

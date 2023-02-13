@@ -1,32 +1,29 @@
 export const initialState = {
-    // user: {},
-    // login: false,
-    address:"",
+    address: "",
+    chain: "",
 };
 
 const reducer = (state, action) => {
 
     switch (action.type) {
-        case "LOGIN":
-            return {
-                ...state,
-                login: true,
-                user: action.payload,
-            };
-
         case "METAMASK_ADDRESS":
             return {
                 ...state,
                 address: action.payload,
             };
 
-        case "WAX_CLOUD_USER_KEYS":
+        case "CHAIN":
             return {
                 ...state,
-                wax_cloud_address: action.payload.user,
-                wax__clouc_publicKeys: action.payload.keys
+                chain: action.payload,
             };
 
+        case "DISCONNECT":
+            return {
+                ...state,
+                address: "",
+                chain: "",
+            };
 
         default:
             return state;
