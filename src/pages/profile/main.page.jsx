@@ -93,8 +93,7 @@ function Main() {
     }
 
     if (event == "Docs") {
-      window.open("https://www.google.com", "_blank", "noopener,noreferrer");
-      //  navigate("https://www.google.com");
+      window.open("https://docs.ozelprotocol.xyz/", "_blank", "noopener,noreferrer");
     }
   }
 
