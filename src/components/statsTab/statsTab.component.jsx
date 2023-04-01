@@ -10,6 +10,9 @@ import { v4 as uuidv4 } from "uuid";
 import { setToken } from "../../utils/constants";
 import Clipboard from "../clipboard/clipboard.component";
 
+import Spinner from "../../assets/spinner.gif";
+
+
 function StatsTab() {
   const [{ address, chain }] = useStateValue();
 
@@ -21,6 +24,8 @@ function StatsTab() {
   const [selectedAddressName, setselectedAddressName] = useState("");
   const [token, setuserToken] = useState("");
   const [totalPayment, settotalPayment] = useState("");
+
+  const [loader, setLoader] = useState(false);
 
 
   useEffect(() => {
@@ -42,109 +47,167 @@ function StatsTab() {
     if (userAddresses.length) setselectedAddress(userAddresses[0]);
 
     // to prevent same name;
-    userAddressNames = userAddressNames.map((item,i )=> item + `_${i}`);
+    userAddressNames = userAddressNames.map((item, i) => item + `_${i}`);
 
     setuserAddressNames([...userAddressNames]);
     if (userAddressNames.length) setselectedAddressName(userAddressNames[0]);
   }
 
   async function onAddressChange() {
+    setslippage("")
+    setuserToken("")
+    setLoader(true)
     let payment = await getAccountPayments(selectedAddress);
-   
+
     if (payment.includes(".")) {
       payment = payment.split(".")[0] + "." + payment.split(".")[1].slice(0, 5);
     }
-    
+
     settotalPayment(payment);
 
     const userDetials = await getAccountDetails(selectedAddress);
 
     setslippage(userDetials.slippage / 100);
     setuserToken(userDetials.token);
+
+    setTimeout(() => {
+      setLoader(false)
+    }, 1500);
   }
 
   function handleUserAddressChange(e) {
-    const addressIndex =  userAddressNames.indexOf(e.target.value);
+    setLoader(true)
+    const addressIndex = userAddressNames.indexOf(e.target.value);
 
     setselectedAddress(userAddresses[addressIndex]);
     setselectedAddressName(userAddressNames[addressIndex]);
+    // console.log("-------", localStorage.getItem("selectedAddress"));
+    // console.log("=======", userAddresses[addressIndex]);
+    // console.log("compare: ", localStorage.getItem("selectedAddress") === userAddresses[addressIndex]);
+
+    setTimeout(() => {
+      setLoader(false)
+    }, 1000);
   }
 
-  function resetModule(){
+  function resetModule() {
 
-      setslippage("");
-      setselectedAddress("");
-      setselectedAddressName("");
-      setuserToken("");
-      settotalPayment("");
+    setslippage("");
+    setselectedAddress("");
+    setselectedAddressName("");
+    setuserToken("");
+    settotalPayment("");
 
-      callWeb3Service();
+    callWeb3Service();
   }
 
   return (
-    <div className="form">
-      <div className="field">
-        <label>List of Accounts:</label>
-        {userAddresses.length ? (
-          <select
-            name="tokens"
-            id="tokens"
-            className="defaultInput-Black limitWidth"
-            value={selectedAddressName}
-            onChange={handleUserAddressChange}
-          >
-            {userAddressNames.map((token) => (
-              <option key={uuidv4()} readOnly value={token}>
-                {token.split("_")[0]}
-              </option>
-            ))}
-          </select>
-        ) : (
-          <input
-            className="defaultInput-Black"
-            readOnly
-            type="select"
-            value="No account created"
-          />
-        )}
-      </div>
-      {selectedAddress && (
-        <div className="field">
-          <label>Raw Account:</label>
-          <Clipboard textToCopy={selectedAddress} />
+    <>
+      {/* {
+        loader &&
+        <div style={{ position: "fixed", zIndex: 1000, backgroundColor: "rgba(0,0,0,0.6)", width: "100%", height: "100%", top: "0", left: "0", display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <img src={Spinner} alt="Spinner" width={"100"} />
         </div>
-      )}
-      <div className="field">
-        <label>Total Payments (ETH):</label>
-        <input
-          className={`defaultInput-Black`}
-          readOnly
-          type="number"
-          placeholder="Payment will appear here"
-          value={totalPayment}
-        />
+      } */}
+
+      <div className="form">
+        <div className="field">
+          <label>List of Accounts:</label>
+          {userAddresses.length ? (
+            <select
+              name="tokens"
+              id="tokens"
+              className="defaultInput-Black limitWidth"
+              value={selectedAddressName}
+              onChange={handleUserAddressChange}
+            >
+              {userAddressNames.map((token) => (
+                <option key={uuidv4()} readOnly value={token}>
+                  {token.split("_")[0]}
+                </option>
+              ))}
+            </select>
+          ) : (
+            <input
+              className="defaultInput-Black"
+              readOnly
+              type="select"
+              value="No account created"
+            />
+          )}
+        </div>
+        {selectedAddress && (
+          <div className="field">
+            <label>Raw Account:</label>
+            <Clipboard textToCopy={selectedAddress} />
+          </div>
+        )}
+        <div className="field">
+          <label>Total Payments (ETH):</label>
+          <input
+            className={`defaultInput-Black`}
+            readOnly
+            type="number"
+            placeholder="Payment will appear here"
+            value={totalPayment}
+          />
+        </div>
+        <div className="field">
+          <label>Token Of Account:</label>
+          {/* {
+          (1 == localStorage.getItem("status") && selectedAddress === (localStorage.getItem("selectedAddress"))) ?
+            <input
+              className="defaultInput-Black"
+              readOnly
+              type="text"
+              placeholder="User token will appear here"
+              defaultValue={localStorage.getItem("tokenName")}
+            />
+            :
+          } */}
+          {
+            loader ?
+              <input
+                className="defaultInput-Black"
+                readOnly
+                type="text"
+                placeholder="User token will appear here"
+                defaultValue={""}
+              />
+              :
+              <input
+                className="defaultInput-Black"
+                readOnly
+                type="text"
+                placeholder="User token will appear here"
+                defaultValue={setToken(token)}
+              />
+          }
+        </div>
+        <div className="field">
+          <label>Slippage of Account (%):</label>
+          {/* {
+          (1 == localStorage.getItem("status") && selectedAddress === (localStorage.getItem("selectedAddress"))) ?
+            <input
+              // style={{ background: "red" }}
+              className="defaultInput-Black"
+              placeholder="Slippage will appear here"
+              readOnly
+              defaultValue={localStorage.getItem("slippage")}
+              value={localStorage.getItem("slippage")}
+              type="text"
+            />
+            :
+          } */}
+          {
+            loader ?
+              <input className="defaultInput-Black" placeholder="Slippage will appear here" readOnly type="text" value={""} />
+              :
+              <input className="defaultInput-Black" placeholder="Slippage will appear here" readOnly type="text" value={slippage} />
+          }
+        </div>
       </div>
-      <div className="field">
-        <label>Token Of Account:</label>
-        <input
-          className="defaultInput-Black"
-          readOnly
-          type="text"
-          placeholder="User token will appear here"
-          defaultValue={setToken(token)}
-        />
-      </div>
-      <div className="field">
-        <label>Slippage of Account (%):</label>
-        <input
-          className="defaultInput-Black"
-          placeholder="Slippage will appear here"
-          readOnly
-          type="text"
-          value={slippage}
-        />
-      </div>
-    </div>
+    </>
   );
 }
 

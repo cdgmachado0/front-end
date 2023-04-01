@@ -7,7 +7,11 @@ import {
   getTotalVolumeInUSD,
 } from "../../services/web3Service";
 import { useStateValue } from "../../stateManagement/stateProvider.state";
-import { GOERLI_CHAIN_ID, MAINNET_CHAIND_ID } from "../../utils/constants";
+import { 
+  GOERLI_CHAIN_ID, 
+  MAINNET_CHAIND_ID,
+  ARBITRUM_CHAIN_ID
+} from "../../utils/constants";
 
 import "./home.styles.scss";
 
@@ -20,7 +24,7 @@ function Home() {
       setTimeout(() => {
         try {
           window.ethereum.on("chainChanged", (chain) => {
-            if (chain != MAINNET_CHAIND_ID && chain != GOERLI_CHAIN_ID) {
+            if (chain != MAINNET_CHAIND_ID && chain != GOERLI_CHAIN_ID && chain != ARBITRUM_CHAIN_ID) {
               return
             } else {
               // dispatch chain change

@@ -10,16 +10,19 @@ import { v4 as uuidv4 } from "uuid";
 
 import "./main.styles.scss";
 import PopUp from "../../components/popUp/popUp.component";
-import { GOERLI_CHAIN_ID, MAINNET_CHAIND_ID } from "../../utils/constants";
+import {
+  GOERLI_CHAIN_ID,
+  MAINNET_CHAIND_ID,
+  ARBITRUM_CHAIN_ID
+} from "../../utils/constants";
 
 function Main() {
   const [{ address, chain }, dispatch] = useStateValue();
   const [ozelBalance, setozelBalance] = useState(0);
   const [ozelBalanceUsd, setozelBalanceUsd] = useState(0);
   const [ozelBalanceWeth, setozelBalanceWeth] = useState(0);
-
+  const [opt, setOpt] = useState("...")
   const [showPopUp, setshowPopUp] = useState(false);
-
   const [installMetamaskPopUpMessage] = useState(
     "Please install the Metamask extension"
   );
@@ -32,35 +35,36 @@ function Main() {
   }, [address, chain]);
 
   useEffect(() => {
-    setTimeout(()=>{
-        try {
-          if (
-            window.ethereum.chainId != MAINNET_CHAIND_ID &&
-            window.ethereum.chainId != GOERLI_CHAIN_ID
-          ) {
+    setTimeout(() => {
+      try {
+        if (
+          window.ethereum.chainId != MAINNET_CHAIND_ID &&
+          window.ethereum.chainId != GOERLI_CHAIN_ID &&
+          window.ethereum.chainId != ARBITRUM_CHAIN_ID
+        ) {
+          setshowPopUp(true);
+        }
+
+        window.ethereum.on("chainChanged", (chain) => {
+          if (chain != MAINNET_CHAIND_ID && chain != GOERLI_CHAIN_ID && chain != ARBITRUM_CHAIN_ID) {
             setshowPopUp(true);
+          } else {
+
+            // dispatch chain change
+            dispatch({
+              type: "CHAIN",
+              payload: chain,
+            });
+
+            setshowPopUp(false);
           }
-
-          window.ethereum.on("chainChanged", (chain) => {
-            if (chain != MAINNET_CHAIND_ID && chain != GOERLI_CHAIN_ID) {
-              setshowPopUp(true);
-            } else {
-
-              // dispatch chain change
-               dispatch({
-                 type: "CHAIN",
-                 payload: chain,
-               });
-
-              setshowPopUp(false);
-            }
-          });
-        } catch {}
-    },500)
+        });
+      } catch { }
+    }, 500)
   }, []);
 
   async function callWeb3Service() {
-    if (!address){
+    if (!address) {
       setozelBalance(0)
       setozelBalanceUsd(0)
       setozelBalanceWeth(0)
@@ -69,31 +73,33 @@ function Main() {
 
     let ozelBalance = await balanceOf(address);
     if (ozelBalance.includes(".")) {
-      ozelBalance = ozelBalance.split(".")[0] + "."+ ozelBalance.split(".")[1].slice(0, 3);
+      ozelBalance = ozelBalance.split(".")[0] + "." + ozelBalance.split(".")[1].slice(0, 3);
     }
     setozelBalance(ozelBalance);
 
     let [ozelBalanceWeth, ozelBalanceUsd] = await getOzelBalances(address);
     if (ozelBalanceWeth.includes(".")) {
-      ozelBalanceWeth = ozelBalanceWeth.split(".")[0] + "."+ ozelBalanceWeth.split(".")[1].slice(0, 3);
+      ozelBalanceWeth = ozelBalanceWeth.split(".")[0] + "." + ozelBalanceWeth.split(".")[1].slice(0, 3);
     }
     setozelBalanceWeth(ozelBalanceWeth);
 
     if (ozelBalanceUsd.includes(".")) {
-      ozelBalanceUsd = ozelBalanceUsd.split(".")[0] + "."+ ozelBalanceUsd.split(".")[1].slice(0, 2);
+      ozelBalanceUsd = ozelBalanceUsd.split(".")[0] + "." + ozelBalanceUsd.split(".")[1].slice(0, 2);
     }
     setozelBalanceUsd(ozelBalanceUsd);
   }
 
   function handleHamChange(e) {
     const event = e.target.value;
+    setOpt(event)
 
     if (event == "Home") {
       navigate("/");
     }
-
+    
     if (event == "Docs") {
       window.open("https://docs.ozelprotocol.xyz/", "_blank", "noopener,noreferrer");
+      setOpt("...")
     }
   }
 
@@ -109,7 +115,7 @@ function Main() {
     <div className="mainPage">
       {showPopUp && (
         <PopUp
-          message="Please connect through Ethereum Mainnet or Goerli"
+          message="Connect through Ethereum Mainnet, Goerli or Arbitrum One"
           showClosePopUp={false}
         />
       )}
@@ -122,21 +128,10 @@ function Main() {
       )}
       <div className="metamask_ham">
         <MetamaskWalletBtn enablePopUp={enablePopUp} disablePopUp={disablePopUp} />
-        <select
-          name="tokens"
-          id="tokens"
-          className="defaultInput"
-          onChange={handleHamChange}
-        >
-          <option key={uuidv4()} value={"..."}>
-            &#8226;&#8226;&#8226;
-          </option>
-          <option key={uuidv4()} value={"Docs"}>
-            Docs
-          </option>
-          <option key={uuidv4()} value={"Home"}>
-            Home
-          </option>
+        <select name="tokens" id="tokens" className="defaultInput" value={opt} onChange={handleHamChange} >
+          <option key={uuidv4()} value={"..."}>&#8226;&#8226;&#8226; </option>
+          <option key={uuidv4()} value={"Docs"}>Docs </option>
+          <option key={uuidv4()} value={"Home"}>Home </option>
         </select>
       </div>
       <div className="info">

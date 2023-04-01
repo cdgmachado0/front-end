@@ -8,8 +8,13 @@ import { useStateValue } from "../../stateManagement/stateProvider.state";
 
 import { v4 as uuidv4 } from "uuid";
 import PopUp from "../popUp/popUp.component";
-import { setToken } from "../../utils/constants";
+import { setToken, ARBITRUM_CHAIN_ID } from "../../utils/constants";
 import { isValidAccountName } from "../../utils/commonFunctions";
+
+
+import Spinner from "../../assets/spinner.gif";
+
+
 
 function CreateTab() {
   const [{ address, chain }] = useStateValue();
@@ -32,6 +37,9 @@ function CreateTab() {
   const [showPopUp, setshowPopUp] = useState(false);
 
   const [sendingTx, setsendingTx] = useState(false);
+
+  const [loader, setLoader] = useState(false);
+
 
   useEffect(() => {
     if (!address) return;
@@ -77,6 +85,7 @@ function CreateTab() {
     if (sendingTx) return;
 
     setsendingTx(true);
+    setLoader(true);
 
     try {
       const tx = await createNewProxy(
@@ -86,7 +95,13 @@ function CreateTab() {
         accountName
       );
 
-      const newProxyAddress = tx.events.BeaconUpgraded.address;
+      let newProxyAddress;
+
+      if (window.ethereum.chainId === ARBITRUM_CHAIN_ID) {
+        newProxyAddress = tx.events[0].address;
+      } else {
+        newProxyAddress = tx.events.BeaconUpgraded.address;
+      }
 
       setnewProxyAddress(newProxyAddress);
 
@@ -95,9 +110,11 @@ function CreateTab() {
       setshowPopUp(true);
     } catch (err) {
       console.log(err.message);
+      setLoader(false);
     }
 
     setsendingTx(false);
+    setLoader(false);
   }
 
   function validateSlippageInput(e) {
@@ -146,6 +163,14 @@ function CreateTab() {
 
   return (
     <>
+      {
+        loader &&
+        <div style={{ position: "fixed", zIndex: 1000, backgroundColor: "rgba(0,0,0,0.6)", width: "100%", height: "100%", top: "0", left: "0", display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <img src={Spinner} alt="Spinner" width={"100"} />
+        </div>
+      }
+
+
       {showPopUp && (
         <PopUp
           message={"Account successfully created!"}
@@ -186,9 +211,8 @@ function CreateTab() {
         <div className="field">
           <label>Select Slippage (%):</label>
           <input
-            className={`defaultInput-Black ${
-              invalidSlippage && "invalid-input"
-            }`}
+            className={`defaultInput-Black ${invalidSlippage && "invalid-input"
+              }`}
             onChange={validateSlippageInput}
             type="number"
             placeholder="0.01-5%"

@@ -16,8 +16,18 @@ export const ADDRESS_TO_TOKEN_MAINNET = {
     "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599":"WBTC"
 }
 
+export const ADDRESS_TO_TOKEN_ARBITRUM = {
+    "0xEB4C2781e4ebA804CE9a9803C67d0893436bB27D":"renBTC", //no
+    "0xFEa7a6a0B346362BF88A9e4A88416B77a57D6c2A":"MIM",
+    "0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8":"USDC",
+    "0x17FC002b466eEc40DaE837Fc4bE5c67993ddBd6F":"FRAX",
+    "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9":"USDT",
+    "0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f":"WBTC"
+}
+
 export const MAINNET_CHAIND_ID = "0x1";
 export const GOERLI_CHAIN_ID = "0x5";
+export const ARBITRUM_CHAIN_ID = "0xa4b1";
 
 export const ACCOUNT_NAME_REGEX = /^[a-zA-Z0-9]*$/;
 
@@ -26,5 +36,7 @@ export function setToken(token) {
         return ADDRESS_TO_TOKEN_MAINNET[token];
     } else if (window.ethereum.chainId == GOERLI_CHAIN_ID) {
         return ADDRESS_TO_TOKEN[token];
+    } else if (window.ethereum.chainId == ARBITRUM_CHAIN_ID) {
+        return ADDRESS_TO_TOKEN_ARBITRUM[token];
     }
 }
